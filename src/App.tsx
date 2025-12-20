@@ -1,10 +1,11 @@
 import styles from './App.module.css';
 import Form from './components/Form/Form.tsx';
+import WeatherDetail from './components/WeatherDetail/WeatherDetail.tsx';
 import useWeather from './hooks/useWeather.ts';
 
 function App() {
   
-  const { fetchWeather } = useWeather()
+  const { weather, fetchWeather, hasWeatherData } = useWeather()
 
   return (
     <>
@@ -15,6 +16,10 @@ function App() {
           fetchWeather={fetchWeather} 
         />
 
+        {hasWeatherData &&
+        <WeatherDetail weather={weather} />
+        }
+        
       </div>
     </>
   )

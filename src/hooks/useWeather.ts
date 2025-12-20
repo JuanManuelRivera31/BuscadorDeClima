@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useMemo, useState } from 'react';
 import type { SearchType } from '../types';
 import { z } from 'zod'
 // import { object, string, number, Output, parse } from 'valibot'
@@ -24,6 +25,7 @@ const Weather = z.object({
         temp_min: z.number(),
     })
 })
+
 export type Weather = z.infer<typeof Weather>
 
 // Valibot
@@ -47,6 +49,15 @@ const initialState = {
 }
 
 export default function useWeather() {
+
+    const [weather, setWeather] = useState<Weather>({
+        name: '',
+        main: {
+            temp: 0,
+            temp_max: 0,
+            temp_min: 0
+        }
+    })
     
     const fetchWeather = async (search: SearchType) => { //Toma una busqueda que va ser de tipo search type
         
@@ -80,7 +91,7 @@ export default function useWeather() {
             const {data: weatherResult} = await axios(weatherUrl)
             const result = Weather.safeParse(weatherResult)
             if(result.success) {
-                // setWeather(result.data)
+                setWeather(result.data)
             }
 
             // Valibot
@@ -93,7 +104,13 @@ export default function useWeather() {
         } catch (error) {
 
         }
-}
+    }
 
-    return { fetchWeather };
+    const hasWeatherData = useMemo(() => weather.name !== '', [weather]) //Revisa si el state de weather tiene algo
+
+    return { 
+        weather, 
+        fetchWeather,
+        hasWeatherData
+    };
 }
