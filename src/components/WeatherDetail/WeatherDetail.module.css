@@ -1,6 +1,6 @@
 .container{
-    background-color: var(--white);
-    color: black;
+    background-color: transparent;
+    color: white;
     border-radius: 1rem;
     text-align: center;
     padding: 1rem;
@@ -21,10 +21,10 @@
 
 .temperatures p {
     font-weight: bold;
-    color: #242424;
+    color: #ffffff;
 }
 
 .temperatures span {
     font-weight: lighter;
-    color: black;
+    color: white;
 }
